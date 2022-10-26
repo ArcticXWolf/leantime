@@ -77,7 +77,8 @@ namespace leantime\domain\repositories {
             20107,
             20108,
             20109,
-            20110
+            20110,
+            20301
         );
 
         /**
@@ -417,6 +418,14 @@ namespace leantime\domain\repositories {
                   `user_id` int(11) DEFAULT NULL,
                   PRIMARY KEY (`id`)
                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+                CREATE TABLE `zp_editortemplates` (
+                  `id` int(11) NOT NULL AUTO_INCREMENT,
+                  `title` text CHARACTER SET latin1,
+                  `description` text CHARACTER SET latin1,
+                  `content` text CHARACTER SET latin1,
+                  PRIMARY KEY (`id`)
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
                 CREATE TABLE `zp_file` (
                   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -1245,6 +1254,41 @@ namespace leantime\domain\repositories {
 
         }
 
+        private function update_sql_20301() {
+
+            $errors = array();
+
+            $sql = array("CREATE TABLE `zp_editortemplates` (
+                  `id` int(11) NOT NULL AUTO_INCREMENT,
+                  `title` text CHARACTER SET latin1,
+                  `description` text CHARACTER SET latin1,
+                  `content` text CHARACTER SET latin1,
+                  PRIMARY KEY (`id`)
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+            );
+
+            foreach ($sql as $statement) {
+
+                try {
+
+                    $stmn = $this->database->prepare($statement);
+                    $stmn->execute();
+
+                } catch (PDOException $e) {
+
+                    array_push($errors, $statement . " Failed:" . $e->getMessage());
+
+                }
+
+            }
+
+            if(count($errors) > 0) {
+                return $errors;
+            }else{
+                return true;
+            }
+
+        }
 
 
     }
