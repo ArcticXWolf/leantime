@@ -29,7 +29,7 @@ namespace leantime\domain\repositories {
 						zp_editortemplates.id,
 						zp_editortemplates.title,
 						zp_editortemplates.description,
-						zp_editortemplates.content,
+						zp_editortemplates.content
 						
 				FROM 
 				zp_editortemplates
