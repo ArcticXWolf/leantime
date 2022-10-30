@@ -21,5 +21,20 @@ namespace leantime\domain\services {
         {
             return $this->editortemplateRepository->getAll();
         }
+
+        public function get($id)
+        {
+            return $this->editortemplateRepository->get($id);
+        }
+
+        public function add($values)
+        {
+            return $this->editortemplateRepository->add($values);
+        }
+
+        public function edit($values)
+        {
+            return $this->editortemplateRepository->edit($values);
+        }
     }
 }

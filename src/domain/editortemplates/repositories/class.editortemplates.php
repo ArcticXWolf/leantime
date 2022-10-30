@@ -38,20 +38,20 @@ namespace leantime\domain\repositories {
             $stmn = $this->db->database->prepare($sql);
 
             $stmn->execute();
-            $values = $stmn->fetch();
+            $values = $stmn->fetchAll();
             $stmn->closeCursor();
 
             return $values;
         }
 
-        public function getEditortemplate($id)
+        public function get($id)
         {
 
             $sql = "SELECT
 						zp_editortemplates.id,
 						zp_editortemplates.title,
 						zp_editortemplates.description,
-						zp_editortemplates.content,
+						zp_editortemplates.content
 						
 				FROM 
 				zp_editortemplates
@@ -60,6 +60,7 @@ namespace leantime\domain\repositories {
 
             $stmn = $this->db->database->prepare($sql);
             $stmn->bindValue(':id', $id, PDO::PARAM_INT);
+            $stmn->setFetchMode(PDO::FETCH_CLASS, "leantime\domain\models\\editortemplates");
 
             $stmn->execute();
             $values = $stmn->fetch();
@@ -68,7 +69,7 @@ namespace leantime\domain\repositories {
             return $values;
         }
 
-        public function addEditortemplate($values)
+        public function add($values)
         {
 
             $query = "INSERT INTO zp_editortemplates (
@@ -94,8 +95,31 @@ namespace leantime\domain\repositories {
             return $id;
         }
 
+        public function edit($editortemplate)
+        {
 
-        public function delEditortemplate($id)
+            $query = "UPDATE zp_editortemplates
+                      SET
+                        title = :title,
+                        description = :description,
+                        content = :content
+                        WHERE id = :id";
+
+            $stmn = $this->db->database->prepare($query);
+            $stmn->bindValue(':title', $editortemplate->title, PDO::PARAM_STR);
+            $stmn->bindValue(':description', $editortemplate->description, PDO::PARAM_STR);
+            $stmn->bindValue(':content', $editortemplate->content, PDO::PARAM_STR);
+            $stmn->bindValue(':id', $editortemplate->id, PDO::PARAM_STR);
+
+            $execution = $stmn->execute();
+
+            $stmn->closeCursor();
+
+            return $execution;
+        }
+
+
+        public function del($id)
         {
             $query = "DELETE FROM zp_editortemplates WHERE id = :id LIMIT 1";
 

@@ -14,6 +14,13 @@ defined('RESTRICTED') or die('Restricted access');
     <div class="maincontentinner">
 
         <?php echo $this->displayNotification(); ?>
+        <div class="row">
+            <div class="col-md-5">
+                <div class="btn-group">
+                    <a href="<?= BASE_URL ?>/editortemplates/edit/" class="btn btn-primary formModal editortemplateModal"><?= $this->__("links.new_with_icon") ?></a>
+                </div>
+            </div>
+        </div>
 
         <table id="allEditortemplatesTable" class="table table-bordered display" style="width:100%">
             <colgroup>
@@ -29,7 +36,11 @@ defined('RESTRICTED') or die('Restricted access');
             <tbody>
                 <?php foreach ($this->get('allEditortemplates') as $row) { ?>
                     <tr>
-                        <td data-order="<?= $this->e($row['title']); ?>"><?= $this->e($row['title']); ?></td>
+                        <td data-order="<?= $this->e($row['title']); ?>">
+                            <a href="<?= BASE_URL ?>/editortemplates/edit/<?php echo $row['id']; ?>" class="formModal editortemplateModal">
+                                <?= $this->e($row['title']); ?>
+                            </a>
+                        </td>
                         <td data-order="<?= $this->e($row['description']); ?>"><?= $this->e($row['description']); ?></td>
                     </tr>
                 <?php } ?>
